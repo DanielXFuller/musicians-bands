@@ -1,6 +1,6 @@
 const {sequelize} = require('./db');
-const {Band, Musician} = require('./index')
-const {Song} = require('./models');
+const {Band, Musician, Song} = require('./index')
+
 
 describe('Band and Musician Models', () => {
     /**
@@ -64,14 +64,14 @@ describe('Band and Musician Models', () => {
 
 describe('Song model', () => {
     beforeAll(async () => {
-      await sequelize.sync({ force: true }); // re-create the database schema
+        await sequelize.sync({ force: true }); // re-create the database schema
     });
   
     test('should create a new Song with the correct properties', async () => {
-      const song = await Song.create({ title: 'Bohemian Rhapsody', duration: 354 });
+        const song = await Song.create({ title: 'Bohemian Rhapsody', duration: 354 });
   
-      expect(song.title).toBe('Bohemian Rhapsody');
-      expect(song.duration).toBe(354);
+        expect(song.title).toBe('Bohemian Rhapsody');
+        expect(song.duration).toBe(354);
     });
 
     test('should add songs to a band', async () => {
