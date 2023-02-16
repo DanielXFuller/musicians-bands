@@ -1,6 +1,6 @@
 const {sequelize} = require('./db');
 const {Band, Musician} = require('./index')
-const { Song } = require('./models');
+const {Song} = require('./models');
 
 describe('Band and Musician Models', () => {
     /**
@@ -72,5 +72,25 @@ describe('Song model', () => {
   
       expect(song.title).toBe('Bohemian Rhapsody');
       expect(song.duration).toBe(354);
+    });
+
+    test('should add songs to a band', async () => {
+        // Create a band
+        const band = await Band.create({ name: 'Queen', genre: 'Rock' });
+    
+        // Create some songs
+        const song1 = await Song.create({ title: 'Bohemian Rhapsody', duration: 354 });
+        const song2 = await Song.create({ title: 'We Will Rock You', duration: 122 });
+        const song3 = await Song.create({ title: 'We Are the Champions', duration: 179 });
+    
+        // Add the songs to the band
+        await band.addSongs([song1, song2, song3]);
+    
+        // Check that the songs have been added correctly
+        const songs = await band.getSongs();
+        expect(songs.length).toBe(3);
+        expect(songs[0].title).toBe('Bohemian Rhapsody');
+        expect(songs[1].title).toBe('We Will Rock You');
+        expect(songs[2].title).toBe('We Are the Champions');
     });
 });
